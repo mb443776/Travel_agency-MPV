@@ -1,0 +1,83 @@
+startuml
+!define Table(x) class x << (T,#87CEEB) Table >> "x"
+hide methods
+hide stereotypes
+
+Table(Users) {
+  id;
+  email;
+  password_hash;
+  first_name;
+  last_name;
+  phone_number;
+  registration_date;
+  is_admin
+}
+
+Table(Destinations) {
+  id;
+  name;
+  country;
+  description;
+  image_url
+}
+
+Table(TravelPackages) {
+  id;
+  title;
+  description;
+  duration_days;
+  price;
+  start_date;
+  end_date;
+  max_participants;
+  included_services;
+  is_active;
+  created_at
+}
+
+Table(PackageDestinations) {
+  package_id;
+  destination_id;
+  order_in_package
+}
+
+Table(Bookings) {
+  id;
+  user_id;
+  package_id;
+  booking_date;
+  num_adults;
+  num_children;
+  total_amount;
+  status;
+  payment_status
+}
+
+Table(Payments) {
+  id;
+  booking_id;
+  amount;
+  payment_method;
+  transaction_id;
+  payment_date;
+  status
+}
+
+Table(Reviews) {
+  id;
+  user_id;
+  package_id;
+  rating;
+  comment;
+  review_date
+}
+
+Table(ActivityLog) {
+  id;
+  user_id;
+  action_type;
+  target_entity;
+  ip_address;
+  timestamp
+}

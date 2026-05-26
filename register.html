@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid">
+  <div class="col-12 col-6 card">
+    <h2>Регистрация путешественника</h2>
+    {% if error %}
+      <p style="color:#ffb4b4">{{ error }}</p>
+    {% endif %}
+    
+    <form method="post" novalidate>
+      <label for="login">Логин</label>
+      <input id="login" name="login" required pattern="^[a-zA-Z0-9_.-]{3,20}$" title="3–20 символов: латиница, цифры, знаки _.-">
+      
+      <label for="full_name">ФИО полностью</label>
+      <input id="full_name" name="full_name" required placeholder="Иванов Иван Иванович">
+      
+      <label for="phone">Контактный телефон</label>
+      <input id="phone" name="phone" type="tel" required pattern="^\+?[0-9\-\s]{10,15}$" placeholder="+7 999 000 00 00">
+      
+      <label for="email">Электронная почта</label>
+      <input id="email" name="email" type="email" required placeholder="travel@example.com">
+      
+      <label for="password">Пароль (мин. 8 символов)</label>
+      <input id="password" name="password" type="password" minlength="8" required>
+      
+      <button class="btn" type="submit" data-toast="Создаём аккаунт...">Зарегистрироваться</button>
+    </form>
+    
+    <p>Уже бронировали туры? <a href="{{ url_for('login') }}">Войти в кабинет</a></p>
+  </div>
+</div>
+{% endblock %}

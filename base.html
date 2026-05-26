@@ -1,0 +1,42 @@
+{% set title = title or "Мир Путешествий" %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <meta name="color-scheme" content="dark">
+</head>
+<body>
+
+<header class="header wrap">
+  <div class="brand">🌍 Мир Путешествий</div>
+  <nav class="nav">
+    <a href="{{ url_for('index') }}">Главная</a>
+    {% if session.get('user_id') %}
+      <a href="{{ url_for('personal_cabinet') }}">Личный кабинет</a>
+      {% if session.get('is_admin') %}
+        <a href="{{ url_for('admin') }}">Админка</a>
+      {% endif %}
+      <a href="{{ url_for('logout') }}">Выход</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Вход</a>
+      <a href="{{ url_for('register') }}">Регистрация</a>
+    {% endif %}
+  </nav>
+</header>
+
+<main class="wrap">
+  {% block content %}{% endblock %}
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<footer class="wrap" style="opacity:.7">
+  © 2026 Туристическое агентство «Мир Путешествий»
+</footer>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

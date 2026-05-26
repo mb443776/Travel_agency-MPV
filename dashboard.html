@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid">
+  <!-- Приветствие -->
+  <div class="col-12 card">
+    <h2>Личный кабинет путешественника</h2>
+    <p>Здравствуйте, {{ user.full_name }}! Готовы к новому приключению?</p>
+  </div>
+
+  <!-- Форма бронирования тура -->
+  <div class="col-12 col-6 card">
+    <h3>Забронировать тур</h3>
+    <form method="post" action="{{ url_for('create_booking') }}" novalidate>
+      <label for="package_id">Доступные направления</label>
+      <select id="package_id" name="package_id" required>
+        {% for p in travel_packages %}
+          <option value="{{ p.id }}">
+            {{ p.title }} — с {{ p.start_date }} (на {{ p.duration_days }} дн.)
+          </option>
+        {% endfor %}
+      </select>
+
+      <label for="num_people">Количество человек</label>
+      <input type="number" id="num_people" name="num_people" min="1" max="10" required value="1">
+
+      <label for="payment_method">Способ оплаты</label>
+      <select id="payment_method" name="payment_method" required>
+        <option value="online">Онлайн-оплата</option>
+        <option value="card">Картой в офисе</option>
+        <option value="cash">Наличными</option>
+      </select>
+
+      <button class="btn" type="submit" data-toast="Заявка на бронирование отправлена">Забронировать</button>
+    </form>
+  </div>
+
+  <!-- Список бронирований пользователя -->
+  <div class="col-12 col-6 card">
+    <h3>Мои путешествия</h3>
+    {% if bookings %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Тур</th>
+          <th>Дата заезда</th>
+          <th>Людей</th>
+          <th>Оплата</th>
+          <th>Статус</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in bookings %}
+        <tr>
+          <td>{{ b.id }}</td>
+          <td>{{ b.title }}</td>
+          <td>{{ b.start_date }}</td>
+          <td>{{ b.num_people }}</td>
+          <td>{{ b.payment_method }}</td>
+          <td><span class="status {{ b.status }}">{{ b.status }}</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>У вас пока нет забронированных туров.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid">
+  <!-- Слайдер красивых направлений -->
+  <div class="col-12">
+    <div class="slider" aria-label="Слайдер туристических направлений">
+      <div class="slide active"><img src="{{ url_for('static', filename='img/slider1.jpg') }}" alt="Живописные горы"></div>
+      <div class="slide"><img src="{{ url_for('static', filename='img/slider2.jpg') }}" alt="Лазурный пляж"></div>
+      <div class="slide"><img src="{{ url_for('static', filename='img/slider3.jpg') }}" alt="Древний город"></div>
+      <div class="slide"><img src="{{ url_for('static', filename='img/slider4.jpg') }}" alt="Экзотический курорт"></div>
+      <div class="controls">
+        <button class="btn secondary" onclick="prevSlide()" aria-label="Предыдущий слайд">←</button>
+        <button class="btn secondary" onclick="nextSlide()" aria-label="Следующий слайд">→</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Приветственный блок -->
+  <div class="col-12 card">
+    <h2>Добро пожаловать в «Мир Путешествий»</h2>
+    <p>Информационная система турагентства: быстрый выбор направлений, бронирование туров, личный кабинет путешественника и оперативная обработка заявок менеджером.</p>
+    <p>
+      <a class="btn" href="{{ url_for('register') }}">Зарегистрироваться</a>
+      <a class="btn secondary" href="{{ url_for('login') }}">Войти</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

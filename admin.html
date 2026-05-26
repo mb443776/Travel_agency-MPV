@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid">
+  <!-- Блок фильтрации -->
+  <div class="col-12 card">
+    <h2>Управление бронированиями</h2>
+    <form method="get" class="grid">
+      <div class="col-4">
+        <label for="status">Статус тура</label>
+        <select id="status" name="status">
+          <option value="">Все заявки</option>
+          {% for s in ['new', 'paid', 'confirmed', 'cancelled'] %}
+          <option value="{{ s }}" {% if request.args.get('status') == s %}selected{% endif %}>
+            {% if s == 'new' %}Новая{% elif s == 'paid' %}Оплачена{% elif s == 'confirmed' %}Подтверждена{% else %}Отменена{% endif %}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-4" style="align-self:end">
+        <button class="btn secondary" type="submit">Применить фильтр</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Таблица бронирований -->
+  <div class="col-12 card">
+    <h3>Список активных заказов</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Клиент</th>
+          <th>Тур / Направление</th>
+          <th>Дата заезда</th>
+          <th>Туристов</th>
+          <th>Сумма / Тип</th>
+          <th>Статус</th>
+          <th>Управление</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td>{{ r.id }}</td>
+          <td>
+            <strong>{{ r.full_name }}</strong><br>
+            <small>{{ r.phone }}</small>
+          </td>
+          <td>{{ r.tour_title }}<br><small>{{ r.destination }}</small></td>
+          <td>{{ r.start_date }}</td>
+          <td>{{ r.people_count }}</td>
+          <td>{{ r.total_price }} руб.<br><small>{{ r.payment_method }}</small></td>
+          <td><span class="status {{ r.status }}">{{ r.status }}</span></td>
+          <td>
+            <form method="post" action="{{ url_for('update_booking_status', booking_id=r.id) }}" style="display:flex;gap:6px">
+              <input type="hidden" name="from" value="{{ request.full_path }}">
+              <!-- Кнопки смены статуса -->
+              <button class="btn" name="status" value="confirmed" type="submit" title="Подтвердить бронь">Ок</button>
+              <button class="btn danger" name="status" value="cancelled" type="submit" title="Аннулировать тур">Отмена</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+        {% if not rows %}
+        <tr>
+          <td colspan="8" style="text-align:center">Заявки не найдены</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+ъ
